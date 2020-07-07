@@ -1,0 +1,2 @@
+rootProject.name='IoSegnalo'
+include ':app'

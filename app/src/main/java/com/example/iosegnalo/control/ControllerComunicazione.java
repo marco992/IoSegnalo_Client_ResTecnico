@@ -1,4 +1,4 @@
-package com.example.iosegnalo;
+package com.example.iosegnalo.control;
 
 import android.annotation.SuppressLint;
 import android.widget.Toast;
@@ -16,7 +16,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class SocketManager {
+public class ControllerComunicazione {
     public static String SERVER_IP = "192.168.1.5";
     public static final int SERVER_PORT = 7777;
     Socket socket;
@@ -24,23 +24,20 @@ public class SocketManager {
     ObjectInputStream inputO;
     InputStream InStream;
     Thread Thread1 = null;
-
+    ArrayList MessaggioOutput;
     private String risp;
 
-    public SocketManager(){
-
+    public ControllerComunicazione(){
+        MessaggioOutput = new ArrayList();
+        //MessaggioOutput.add(0); //i=0
+        //MessaggioOutput.add("Marco"); //i=1
+        //MessaggioOutput.add("Vaiano"); //i=2
 
         //if(creaConnessione()==-1)
             //Toast.makeText(getApplicationContext(),"Problema di connessione al server!",Toast.LENGTH_SHORT).show();
 
 
-        Thread1 = new Thread(new Thread1());
-        Thread1.start();
-        try {
-        Thread1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
     }
 
     class Thread1 implements Runnable {
@@ -60,10 +57,8 @@ public class SocketManager {
                 {
                     case 0:
                         //.setText("Stato: Effettuo adesso l'invio della richiesta...");
-                        ArrayList MessaggioOutput = new ArrayList();
-                        MessaggioOutput.add(0); //i=0
-                        MessaggioOutput.add("Marco"); //i=1
-                        MessaggioOutput.add("Vaiano"); //i=2
+
+
                         objectOutputStream.writeObject(MessaggioOutput);
                         //objectOutputStream.flush();
                         break;
@@ -105,16 +100,20 @@ public class SocketManager {
         }
     }
 
-    private int creaConnessione()
+    public void creaConnessione()
     {
-        try{
-            socket = new Socket(SERVER_IP, SERVER_PORT);
-            return 0;
+        Thread1 = new Thread(new Thread1());
+        Thread1.start();
+        try {
+            Thread1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        catch (Exception ex)
-        {
-            //gestione dell'eccezione
-            return -1;
+    }
+    public void setMessaggio(ArrayList messaggio){
+        int i=0;
+        for(i=0; i<messaggio.size();i++){
+            MessaggioOutput.add(messaggio.get(i));
         }
     }
 

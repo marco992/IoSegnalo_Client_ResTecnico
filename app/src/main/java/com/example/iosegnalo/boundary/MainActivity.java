@@ -10,12 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.iosegnalo.R;
-import com.example.iosegnalo.SocketManager;
+import com.example.iosegnalo.control.ControllerComunicazione;
 
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Thread Thread1 = null;
@@ -39,8 +36,15 @@ public class MainActivity extends AppCompatActivity {
         accediBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SocketManager s = new SocketManager();
 
+                ArrayList messaggio = new ArrayList();
+                messaggio.add(0);
+                messaggio.add(usernameTxt.getText().toString());
+                messaggio.add(passwordTxt.getText().toString());
+                ControllerComunicazione s = new ControllerComunicazione();
+
+                s.setMessaggio(messaggio);
+                s.creaConnessione();
                 statusLbl.setText("Risposta server: " +  s.getRisposta());
                 if (s.getRisposta().equals("1"))
                 {

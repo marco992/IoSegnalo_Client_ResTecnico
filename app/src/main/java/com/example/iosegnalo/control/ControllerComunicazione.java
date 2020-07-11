@@ -26,7 +26,7 @@ public class ControllerComunicazione {
     Thread Thread1 = null;
     ArrayList MessaggioOutput;
     private String risp;
-
+    private ArrayList out;
     public ControllerComunicazione(){
         MessaggioOutput = new ArrayList();
         //MessaggioOutput.add(0); //i=0
@@ -62,9 +62,9 @@ public class ControllerComunicazione {
                         objectOutputStream.writeObject(MessaggioOutput);
                         //objectOutputStream.flush();
                         break;
-                    //case value2:
-                    //...
-                    //break;
+                    case 1:
+                        objectOutputStream.writeObject(MessaggioOutput);
+                    break;
                     // eventuali altri case
                     //case valueN:
                     //...
@@ -81,9 +81,14 @@ public class ControllerComunicazione {
                         case "0":
                             risp=messaggioIN.get(1).toString();
                             break;
-                        //case value2:
-                        //...
-                        //break;
+                        case "1":
+                            out = new ArrayList();
+                            int i=0;
+                            for(i=1;i<messaggioIN.size();i++)
+                            {
+                                out.add(messaggioIN.get(i).toString());
+                            }
+                        break;
                         // eventuali altri case
                         //case valueN:
                         //...
@@ -122,6 +127,10 @@ public class ControllerComunicazione {
     public String getRisposta()
     {
         return risp;
+    }
+    public ArrayList getRisposta2()
+    {
+        return out;
     }
 
 }

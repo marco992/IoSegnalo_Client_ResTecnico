@@ -1,14 +1,19 @@
 package com.example.iosegnalo.boundary;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.android.volley.Request;
@@ -21,7 +26,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,16 +45,37 @@ public class SegnalaActivity extends AppCompatActivity {
     TextView indirizzoLbl;
     TextView coordinateLabel;
     Location devicePosition;
+    EditText recapitoText;
+    EditText descrizioneText;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_segnala);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
         //        .findFragmentById(R.id.map);
         getSupportActionBar().hide();
-
+        recapitoText = findViewById(R.id.recapitoTxt);
         indirizzoLbl = findViewById(R.id.indirizzoLabel);
+        descrizioneText= findViewById(R.id.descrizioneTxt);
+
+        recapitoText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                recapitoText.setText("");
+                return false;
+            }
+        });
+        descrizioneText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                descrizioneText.setText("");
+                return false;
+            }
+        });
 
         //codice per rilevare la posizione GPS del dispositivo
         LocationManager locationManager = (LocationManager)

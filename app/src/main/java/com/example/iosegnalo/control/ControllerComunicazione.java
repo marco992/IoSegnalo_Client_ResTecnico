@@ -1,22 +1,16 @@
 package com.example.iosegnalo.control;
 
 import android.annotation.SuppressLint;
-import android.widget.Toast;
-
-import com.example.iosegnalo.boundary.MainActivity;
-
-import java.io.BufferedReader;
-import java.io.IOException;
+import android.util.Log;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class ControllerComunicazione {
+
     public static String SERVER_IP = "192.168.1.5";
     public static final int SERVER_PORT = 7777;
     Socket socket;
@@ -25,19 +19,10 @@ public class ControllerComunicazione {
     InputStream InStream;
     Thread Thread1 = null;
     ArrayList MessaggioOutput;
-    private String risp;
     private ArrayList out;
+
     public ControllerComunicazione(){
         MessaggioOutput = new ArrayList();
-        //MessaggioOutput.add(0); //i=0
-        //MessaggioOutput.add("Marco"); //i=1
-        //MessaggioOutput.add("Vaiano"); //i=2
-
-        //if(creaConnessione()==-1)
-            //Toast.makeText(getApplicationContext(),"Problema di connessione al server!",Toast.LENGTH_SHORT).show();
-
-
-
     }
 
     class Thread1 implements Runnable {
@@ -57,33 +42,32 @@ public class ControllerComunicazione {
                 {
                     case 0:
                         //.setText("Stato: Effettuo adesso l'invio della richiesta...");
-
-
                         objectOutputStream.writeObject(MessaggioOutput);
                         //objectOutputStream.flush();
                         break;
                     case 1:
                         objectOutputStream.writeObject(MessaggioOutput);
                     break;
-                    // eventuali altri case
-                    //case valueN:
-                    //...
-                    //default:
+
                 }
 
                 String tipoRisposta = new String();
                 ArrayList messaggioIN = new ArrayList();
                 messaggioIN = (ArrayList) inputO.readObject();
                 tipoRisposta = messaggioIN.get(0).toString();
+
                 if (tipoRisposta != null) {
                     //verifico il primo elemento dell'arraylist per distinguere i vari messaggi
                     switch (tipoRisposta) {
                         case "0":
-                            risp=messaggioIN.get(1).toString();
+                            out = new ArrayList();
+                            out.add(messaggioIN.get(1).toString());
+                            out.add(messaggioIN.get(2).toString());
                             break;
                         case "1":
                             out = new ArrayList();
                             int i=0;
+                            Log.d("myapp","Prova:"+messaggioIN.size());
                             for(i=1;i<messaggioIN.size();i++)
                             {
                                 out.add(messaggioIN.get(i).toString());
@@ -122,13 +106,7 @@ public class ControllerComunicazione {
         }
     }
 
-
-
-    public String getRisposta()
-    {
-        return risp;
-    }
-    public ArrayList getRisposta2()
+    public ArrayList getRisposta()
     {
         return out;
     }

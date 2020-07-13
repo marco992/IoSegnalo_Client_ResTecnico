@@ -20,12 +20,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <Button
             android:id="@+id/segnalaBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="174dp"
+            android:layout_height="57dp"
             android:layout_marginStart="106dp"
             android:layout_marginLeft="106dp"
             android:layout_marginTop="218dp"
@@ -37,27 +37,25 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/nomeLbl" />
 
         <Button
             android:id="@+id/visualizzaBtn"
-            android:layout_width="183dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="108dp"
-            android:layout_marginRight="108dp"
-            android:layout_marginBottom="228dp"
+            android:layout_width="172dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="106dp"
+            android:layout_marginEnd="112dp"
+            android:layout_marginRight="106dp"
+            android:layout_marginBottom="224dp"
             android:text="VISUALIZZA SEGNALAZIONI"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/segnalaBtn" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/nomeLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -70,6 +68,19 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginLeft="29dp"
+            android:layout_marginTop="220dp"
+            android:layout_marginBottom="544dp"
+            android:text="Di seguito sono elencate le funzioni disponibili:"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

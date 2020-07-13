@@ -1,24 +1,17 @@
 package com.example.iosegnalo.boundary;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-
 import com.example.iosegnalo.R;
 import com.example.iosegnalo.control.ControllerComunicazione;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -28,40 +21,40 @@ import java.util.ArrayList;
 
 public class VisualizzaSegnalazioniActivity extends AppCompatActivity {
     ArrayList segnalazioni;
+    int IDUtente;
     int i;
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizza_segnalazioni);
-        //da inserire: chiamata remota su socket per la ricezione della lista di segnalazioni
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //da inserire: chiamata remota su socket per la ricezione della lista di segnalazioni
+        Intent intent = getIntent();
+        IDUtente = Integer.parseInt(intent.getStringExtra("id"));
 
         ArrayList messaggio = new ArrayList();
-        messaggio.add(1);
-        messaggio.add(1);
-        //messaggio.add(usernameTxt.getText().toString());
-       // messaggio.add(passwordTxt.getText().toString());
-        ControllerComunicazione s = new ControllerComunicazione();
 
+
+        ControllerComunicazione s = new ControllerComunicazione();
+        //messaggio di visualizzazione
+       messaggio.add(1);
+        messaggio.add(IDUtente);
         s.setMessaggio(messaggio);
         s.creaConnessione();
-        //statusLbl.setText("Risposta server: " +  s.getRisposta());
-        segnalazioni = new ArrayList( s.getRisposta2());
 
+        segnalazioni = new ArrayList(s.getRisposta());
+Log.d("myapp",Integer.toString(s.getRisposta().size()));
         TableLayout tl = (TableLayout) findViewById(R.id.tabella);
-
-        //int i=0;
-       // for(i=0;i<segnalazioni.size();i++){
-//
-        //}
 
         //aggiungo una nuova riga
 
         for(i=0;i<segnalazioni.size();i=i+5) {
             TableRow tr = new TableRow(this);
             tr.setBackgroundColor(ContextCompat.getColor(this, R.color.sfondoRighe));
-            tr.setPadding(5, 15, 5, 5);
+            tr.setPadding(5, 15, 5, 15);
             tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
             TextView codice = new TextView(this);
@@ -82,6 +75,10 @@ public class VisualizzaSegnalazioniActivity extends AppCompatActivity {
             Mappa.setWidth(50);
             Mappa.setHeight(65);
             Mappa.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+            Mappa.getLayoutParams().width=150;
+            Mappa.getLayoutParams().height=200;
+
 
             tr.addView(Mappa);
 

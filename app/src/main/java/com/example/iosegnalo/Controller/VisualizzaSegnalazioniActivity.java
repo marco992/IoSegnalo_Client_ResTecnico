@@ -1,12 +1,14 @@
-package com.example.iosegnalo.boundary;
+package com.example.iosegnalo.Controller;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.example.iosegnalo.Model.Segnalazione;
+import com.example.iosegnalo.Model.Sistema;
 import com.example.iosegnalo.R;
-import com.example.iosegnalo.control.ControllerComunicazione;
 import com.google.android.gms.maps.model.LatLng;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -20,9 +22,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class VisualizzaSegnalazioniActivity extends AppCompatActivity {
-    ArrayList segnalazioni;
+    ArrayList<Segnalazione> segnalazioni;
     int IDUtente;
     int i;
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,39 +34,50 @@ public class VisualizzaSegnalazioniActivity extends AppCompatActivity {
         setContentView(R.layout.activity_visualizza_segnalazioni);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        //da inserire: chiamata remota su socket per la ricezione della lista di segnalazioni
+        //prelevo l'id dall'activity che mi ha richiamato (MainActivity)
         Intent intent = getIntent();
         IDUtente = Integer.parseInt(intent.getStringExtra("id"));
 
-        ArrayList messaggio = new ArrayList();
+        Sistema sys = Sistema.getIstance();
 
+        segnalazioni = sys.getSegnalazioniCittadino(IDUtente);
 
-        ControllerComunicazione s = new ControllerComunicazione();
-        //messaggio di visualizzazione
-       messaggio.add(1);
-        messaggio.add(IDUtente);
-        s.setMessaggio(messaggio);
-        s.creaConnessione();
+        if(segnalazioni!=null)
+        aggiornaTabellaSegnalazioni(segnalazioni);
 
-        segnalazioni = new ArrayList(s.getRisposta());
-Log.d("myapp",Integer.toString(s.getRisposta().size()));
+    }
+
+    private void apriMappa(LatLng coordinate){
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Log.d("iosegnalo","lat:"+coordinate.latitude+",lon:"+coordinate.longitude);
+        intent.setData(Uri.parse("http://maps.google.co.in/maps?q=" + coordinate.latitude+","+coordinate.longitude));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+    }
+
+    private void aggiornaTabellaSegnalazioni(ArrayList<Segnalazione> segnalazioni)
+    {
+        //aggiungo una riga per ogni segnalazione associata al cittadino
+
         TableLayout tl = (TableLayout) findViewById(R.id.tabella);
 
-        //aggiungo una nuova riga
-
-        for(i=0;i<segnalazioni.size();i=i+5) {
+        for(i=0;i<segnalazioni.size();i++) {
+            //nuova riga
             TableRow tr = new TableRow(this);
             tr.setBackgroundColor(ContextCompat.getColor(this, R.color.sfondoRighe));
             tr.setPadding(5, 15, 5, 15);
             tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-
+            //codice
             TextView codice = new TextView(this);
-            codice.setText("  " + segnalazioni.get(i).toString());
+            codice.setText("  " + segnalazioni.get(i).getId());
             codice.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
             tr.addView(codice);
-
-            final LatLng coordinate = new LatLng(Double.parseDouble(segnalazioni.get(i+1).toString()), Double.parseDouble(segnalazioni.get(i+2).toString()));
+            //coordinate
+            final LatLng coordinate = new LatLng(segnalazioni.get(i).getLatitudine(), segnalazioni.get(i).getLongitudine());
             Button Mappa = new Button(this);
             Mappa.setBackgroundResource(R.drawable.google_maps_icon_130921);
             Mappa.setOnClickListener(new View.OnClickListener() {
@@ -81,43 +95,33 @@ Log.d("myapp",Integer.toString(s.getRisposta().size()));
 
 
             tr.addView(Mappa);
-
+            //data ultima modifica
             TextView DataModifica = new TextView(this);
-            DataModifica.setText("    " + segnalazioni.get(i+3).toString());
+            DataModifica.setText("    " + segnalazioni.get(i).getDataModifica());
             DataModifica.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
             tr.addView(DataModifica);
-
+            //stato
             TextView Stato = new TextView(this);
-            switch(segnalazioni.get(i+4).toString())
+
+            switch(segnalazioni.get(i).getStato())
             {
-                    case "0":
+                case 0:
                     Stato.setText("    Aperta");
                     break;
-                    case "1":
+                case 1:
                     Stato.setText("    In lavorazione");
                     break;
-                    case "2":
-                        Stato.setText("    Chiusa");
+                case 2:
+                    Stato.setText("    Chiusa");
                     break;
             }
-
 
             Stato.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
             tr.addView(Stato);
 
             tl.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-        }
-
-    }
-
-    private void apriMappa(LatLng coordinate){
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Log.d("myapp","lat:"+coordinate.latitude+",lon:"+coordinate.longitude);
-        intent.setData(Uri.parse("http://maps.google.co.in/maps?q=" + coordinate.latitude+","+coordinate.longitude));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
         }
     }
 

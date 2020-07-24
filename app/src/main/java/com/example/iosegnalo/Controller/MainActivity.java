@@ -1,4 +1,4 @@
-package com.example.iosegnalo.boundary;
+package com.example.iosegnalo.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,72 +6,72 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.iosegnalo.Model.Sistema;
+import com.example.iosegnalo.Model.Utente;
 import com.example.iosegnalo.R;
-import com.example.iosegnalo.control.ControllerComunicazione;
+import com.example.iosegnalo.Model.Comunicazione;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Thread Thread1 = null;
-    Thread Thread2 = null;
-    TextView statusLbl;
+
     EditText usernameTxt;
     EditText passwordTxt;
     Button accediBtn;
+    Utente user;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        statusLbl = findViewById(R.id.statusLbl);
         usernameTxt = findViewById(R.id.usernameText);
         passwordTxt = findViewById(R.id.passwordText);
         getSupportActionBar().hide();
-        statusLbl.setText("Stato: ");
         Button accediBtn = (Button) findViewById(R.id.accediButton);
+
         //evento associato alla pressione del tasto ACCEDI
+
         accediBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                ArrayList messaggio = new ArrayList();
-                messaggio.add(0);
-                messaggio.add(usernameTxt.getText().toString());
-                messaggio.add(passwordTxt.getText().toString());
-                ControllerComunicazione s = new ControllerComunicazione();
-
-                s.setMessaggio(messaggio);
-                s.creaConnessione();
-                statusLbl.setText("Risposta server: " +  s.getRisposta().get(0).toString());
+                Sistema sys = Sistema.getIstance();
+                user = sys.getUtente(usernameTxt.getText().toString(),passwordTxt.getText().toString());
+//Log.d("iosegnalo","ok:"+user.getTipo());
                 Intent i;
-                switch(Integer.parseInt(s.getRisposta().get(0).toString()))
+                switch(user.getTipo())
                 {
                     case 0:
+                        //ho riconosciuto un utente cittadino
                         i = new Intent(MainActivity.this, CittadinoActivity.class);
-                        i.putExtra("nomeutente", usernameTxt.getText().toString());
-                        i.putExtra("id", s.getRisposta().get(1).toString());
+                        i.putExtra("nomeutente", user.getUsername());
+                        i.putExtra("id", Integer.toString(user.getId()));
                         startActivity(i);
                         break;
                     case 1:
+                        //ho riconosciuto un utente responsabile squadra
                         i = new Intent(MainActivity.this, RespTecnicoActivity.class);
-                        i.putExtra("nomeutente", usernameTxt.getText().toString());
+                        i.putExtra("nomeutente", user.getUsername());
                         startActivity(i);
                         break;
                     case 2:
-                        //activity relativa all'amministratore di sistema
+                        //ho riconosciuto un utente amministratore di sistema
                     case -1:
+                        //non ho riconosciuto un utente valido
                         Toast toast=Toast.makeText(getApplicationContext(),"Utente non registrato o username/password errata",Toast.LENGTH_SHORT);
-                        toast.setMargin(25,25);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
-                        statusLbl.setText("Utente non registrato o username/password errata");
                         break;
                 }
             }

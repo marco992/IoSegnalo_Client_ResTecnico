@@ -113,6 +113,7 @@ public class Comunicazione {
         }
     }
 
+
     public ArrayList getRisposta()
     {
         return Messaggio;

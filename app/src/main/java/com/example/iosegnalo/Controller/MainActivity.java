@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                         i.putExtra("nomeutente", user.getUsername());
                         startActivity(i);
                         break;
+
                     case 2:
                         //ho riconosciuto un utente amministratore di sistema
                     case -1:

@@ -11,6 +11,7 @@ public class Observer extends Observable {
     Timer tmr;
     ControlloNuoveSegnalazioni C_S = new ControlloNuoveSegnalazioni();
 
+
     public Observer() {
         Timer timer = new Timer();
         timer.schedule( C_S, 5000, 10000 );

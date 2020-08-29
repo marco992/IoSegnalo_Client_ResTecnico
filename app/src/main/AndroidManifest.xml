@@ -18,10 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.RespTecnicoActivity"></activity>
-        <activity android:name=".Controller.CittadinoActivity" />
+        <activity android:name=".DaSpostare.RespTecnicoActivity"></activity>
+        <activity android:name=".View.CittadinoActivity" />
         <activity
-            android:name=".Controller.VisualizzaSegnalazioniActivity"
+            android:name=".View.VisualizzaSegnalazioniActivity"
             android:label="@string/title_activity_visualizza_segnalazioni"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
@@ -36,8 +36,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Controller.SegnalaActivity" />
-        <activity android:name=".Controller.MainActivity">
+        <activity android:name=".View.SegnalaActivity" />
+        <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

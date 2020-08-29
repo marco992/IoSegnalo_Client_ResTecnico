@@ -1,13 +1,13 @@
 package com.example.iosegnalo.Model;
 
-import android.util.Log;
-
 import java.sql.Date;
 import java.util.ArrayList;
 
 public class Sistema {
     private static Sistema istance=null;
     ArrayList<Segnalazione> ListaSegnalazioni = new ArrayList<Segnalazione>();
+    Utente Cittadino;
+    private static Comunicazione com;
 
     public static Sistema getIstance() {
         if(istance==null)
@@ -18,6 +18,7 @@ public class Sistema {
     public Sistema()
     {
         ListaSegnalazioni=new ArrayList<Segnalazione>();
+        com = new ProxyComunicazione();
     }
 
     public int inserisciSegnalazione(int Tipologia, String Descrizione, int IDUtente, Double latitudine, Double Longitudine, String Recapito)
@@ -40,31 +41,28 @@ public class Sistema {
         richiesta.add(s.getLatitudine());
         richiesta.add(s.getLongitudine());
         richiesta.add(s.getRecapito());
-        Comunicazione c = new Comunicazione(richiesta);
-        c.creaConnessione();
-        risposta=c.getRisposta();
+        com.avviaComunicazione(richiesta);
+        risposta = com.getRisposta();
         if(risposta.get(0).toString().equals("1"))
             return 1;
         else return -1;
     }
 
-    public Utente getUtente(String Username, String Password)
+    public Utente getUtenteByUsrPass(String Username, String Password)
     {
-        Utente u = new Utente();
-
-        ArrayList risposta = new ArrayList();
-        ArrayList richiesta = new ArrayList();
-        richiesta.add(0);
-        richiesta.add(Username);
-        richiesta.add(Password);
-        Comunicazione c = new Comunicazione(richiesta);
-        c.creaConnessione();
-        risposta=c.getRisposta();
-        u.setUsername(Username);
-        u.setPassword(Password);
-        u.setTipo(Integer.parseInt(risposta.get(0).toString()));
-        u.setId(Integer.parseInt(risposta.get(1).toString()));
-        return u;
+            Cittadino = new Utente();
+            ArrayList risposta = new ArrayList();
+            ArrayList richiesta = new ArrayList();
+            richiesta.add(0);
+            richiesta.add(Username);
+            richiesta.add(Password);
+            com.avviaComunicazione(richiesta);
+            risposta = com.getRisposta();
+            Cittadino.setUsername(Username);
+            Cittadino.setPassword(Password);
+            Cittadino.setTipo(Integer.parseInt(risposta.get(0).toString()));
+            Cittadino.setId(Integer.parseInt(risposta.get(1).toString()));
+        return Cittadino;
     }
 
     public ArrayList<Segnalazione> getSegnalazioniCittadino(int IDUtente)
@@ -73,9 +71,8 @@ public class Sistema {
         ArrayList richiesta = new ArrayList();
         richiesta.add(1);
         richiesta.add(IDUtente);
-        Comunicazione c = new Comunicazione(richiesta);
-        c.creaConnessione();
-        risposta=c.getRisposta();
+        com.avviaComunicazione(richiesta);
+        risposta = com.getRisposta();
 
         int i;
         for(i=0;i<risposta.size();i=i+5) {
@@ -99,9 +96,8 @@ public class Sistema {
         ArrayList risposta = new ArrayList();
         ArrayList richiesta = new ArrayList();
         richiesta.add(3);
-        Comunicazione c = new Comunicazione(richiesta);
-        c.creaConnessione();
-        risposta=c.getRisposta();
+        com.avviaComunicazione(richiesta);
+        risposta = com.getRisposta();
 
         int i;
         for(i=0;i<risposta.size();i=i+5) {
@@ -118,6 +114,10 @@ public class Sistema {
             ListaSegnalazioni.add(s);
         }
         return ListaSegnalazioni;
+    }
+
+    public Utente getUtente(){
+        return Cittadino;
     }
 
 }

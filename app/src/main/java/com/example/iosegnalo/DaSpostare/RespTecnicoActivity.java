@@ -1,4 +1,4 @@
-package com.example.iosegnalo.Controller;
+package com.example.iosegnalo.DaSpostare;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,7 +31,7 @@ public class RespTecnicoActivity extends AppCompatActivity  implements Observer 
         Intent intent = getIntent();
         String nomeutente = new String(intent.getStringExtra("nomeutente"));
 
-        com.example.iosegnalo.Observer myObserver = new com.example.iosegnalo.Observer();
+        com.example.iosegnalo.DaSpostare.Observer myObserver = new com.example.iosegnalo.DaSpostare.Observer();
         myObserver.addObserver(this);
     }
 

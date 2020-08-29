@@ -1,4 +1,4 @@
-package com.example.iosegnalo;
+package com.example.iosegnalo.DaSpostare;
 
 import android.os.Handler;
 

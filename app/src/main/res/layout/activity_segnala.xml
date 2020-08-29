@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controller.SegnalaActivity">
+    tools:context=".View.SegnalaActivity">
 
     <Button
         android:id="@+id/inviaBtn"
@@ -38,15 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/posizioneLbl"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="256dp"
-            android:layout_marginLeft="256dp"
-            android:layout_marginTop="536dp"
-            android:text="Coordinate:                    "
-            android:visibility="invisible" />
     </FrameLayout>
 
     <TextView

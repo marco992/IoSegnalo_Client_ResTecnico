@@ -1,4 +1,4 @@
-package com.example.iosegnalo.Controller;
+package com.example.iosegnalo.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,17 +9,36 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.iosegnalo.Model.Sistema;
+import com.example.iosegnalo.Presenter.CittadinoActivityPresenter;
 import com.example.iosegnalo.R;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class CittadinoActivity  extends AppCompatActivity  {
-
+public class CittadinoActivity  extends AppCompatActivity implements CittadinoView  {
+    TextView nomeLabel;
     int IDUtente;
+    CittadinoActivityPresenter Presenter;
+
+    @Override
+    public void setUsername(String Username) {
+        nomeLabel.setText("Benvenuto "+ Username);
+    }
+
+    @Override
+    public void setID(Integer ID) {
+        IDUtente=ID;
+    }
+
+    @Override
+    public void passaSegnalaActivity(){
+        Intent i = new Intent(CittadinoActivity.this, SegnalaActivity.class);
+        startActivity(i);
+    }
+
+    @Override
+    public void passaVisualizzaActivity(){
+        Intent i = new Intent(CittadinoActivity.this, VisualizzaSegnalazioniActivity.class);
+        startActivity(i);
+    }
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -31,21 +50,15 @@ public class CittadinoActivity  extends AppCompatActivity  {
 
         Button segnalaButton = (Button) findViewById(R.id.segnalaBtn);
         Button visualizzaButton = (Button) findViewById(R.id.visualizzaBtn);
-        TextView nomeLabel = findViewById(R.id.nomeLbl);
+        nomeLabel = findViewById(R.id.nomeLbl);
 
-        //prelevo il nome utente e l'id dall'activity che mi ha richiamato (MainActivity)
-        Intent intent = getIntent();
-        nomeLabel.setText("Benvenuto "+intent.getStringExtra("nomeutente"));
-        IDUtente = Integer.parseInt(intent.getStringExtra("id"));
+        Presenter = new CittadinoActivityPresenter(this);
 
         //evento associato al bottone Accedi
         segnalaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent i = new Intent(CittadinoActivity.this, SegnalaActivity.class);
-                i.putExtra("id", Integer.toString(IDUtente));
-                startActivity(i);
+                Presenter.clickSegnalaButton();
                 }
             });
 
@@ -53,10 +66,7 @@ public class CittadinoActivity  extends AppCompatActivity  {
         visualizzaButton.setOnClickListener(new View.OnClickListener() {
                                              @Override
                                              public void onClick(View view) {
-
-                                                 Intent i = new Intent(CittadinoActivity.this, VisualizzaSegnalazioniActivity.class);
-                                                 i.putExtra("id", Integer.toString(IDUtente));
-                                                 startActivity(i);
+                                                 Presenter.clickVisualizzaButton();
                                              }
                                          });
     }

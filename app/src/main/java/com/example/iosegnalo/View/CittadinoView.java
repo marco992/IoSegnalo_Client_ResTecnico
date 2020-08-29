@@ -5,4 +5,5 @@ public interface CittadinoView {
     void setID(Integer ID);
     void passaSegnalaActivity();
     void passaVisualizzaActivity();
+    void mostraNotifica();
 }

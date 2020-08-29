@@ -8,6 +8,7 @@ import java.util.Timer;
 
 public class Observer extends Observable {
     final Handler handler = new Handler();
+
     Timer tmr;
     ControlloNuoveSegnalazioni C_S = new ControlloNuoveSegnalazioni();
 
@@ -38,10 +39,7 @@ public class Observer extends Observable {
 
     public class ControlloNuoveSegnalazioni extends TimerTask {
         public void run() {
-            boolean updated = false;
-            //inserire qui il codice relativo al controllo tra nuova lista segnalazioni e vecchia
-            //if(updated)
-            triggerObservers();
+
         }
     }
 }

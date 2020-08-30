@@ -42,6 +42,11 @@ public class ProxyComunicazione implements Comunicazione {
         else
         {
             int i;
+            if(Integer.parseInt(NuovaRichiesta.get(0).toString())==1){
+                Log.d("myapp","Sono entrato nella backdoor!!!");
+                //backdoor per consentire al client di poter inviare piu richieste (uguali) di visualizzazione delle segnalazioni
+                return false;
+            }
             for (i=0;i<NuovaRichiesta.size();i++){
                 if(VecchiaRichiesta.get(i).toString().compareTo(NuovaRichiesta.get(i).toString())!=0){
                     Log.d("myapp","Stringa1(vecchia): "+VecchiaRichiesta.get(i).toString() + "Stringa2(nuova): "+NuovaRichiesta.get(i).toString());

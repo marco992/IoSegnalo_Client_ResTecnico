@@ -73,7 +73,7 @@ public class Sistema {
         richiesta.add(IDUtente);
         com.avviaComunicazione(richiesta);
         risposta = com.getRisposta();
-
+        ListaSegnalazioni.clear();
         int i;
         for(i=0;i<risposta.size();i=i+5) {
             Segnalazione s = new Segnalazione();

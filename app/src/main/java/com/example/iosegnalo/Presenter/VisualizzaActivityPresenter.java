@@ -34,7 +34,7 @@ public class VisualizzaActivityPresenter {
     {
         Sistema sys = Sistema.getIstance();
 
-        ArrayList<Segnalazione> Segnalazioni = sys.getSegnalazioniCittadino(Cittadino.getId());
+        ArrayList<Segnalazione> Segnalazioni = (ArrayList<Segnalazione>) sys.getSegnalazioniCittadino(Cittadino.getId()).clone();
         if(Segnalazioni.isEmpty()==false) {
 
             int i;

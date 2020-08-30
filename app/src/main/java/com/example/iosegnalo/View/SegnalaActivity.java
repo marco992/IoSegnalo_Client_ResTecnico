@@ -63,6 +63,7 @@ public class SegnalaActivity extends AppCompatActivity implements SegnalaView {
                 marker = googleMap.addMarker(m);
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.856033,14.248337), 15));
                 mappa.onResume();
+                posizione=marker.getPosition();
                 Presenter.aggiornaIndirizzo(getApplicationContext(),marker);
 
                 googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {

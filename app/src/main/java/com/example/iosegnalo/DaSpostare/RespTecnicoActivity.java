@@ -30,9 +30,6 @@ public class RespTecnicoActivity extends AppCompatActivity  implements Observer 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Intent intent = getIntent();
         String nomeutente = new String(intent.getStringExtra("nomeutente"));
-
-        com.example.iosegnalo.DaSpostare.Observer myObserver = new com.example.iosegnalo.DaSpostare.Observer();
-        myObserver.addObserver(this);
     }
 
 

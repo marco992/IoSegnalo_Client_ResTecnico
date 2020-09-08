@@ -37,7 +37,6 @@ public class CittadinoActivity  extends AppCompatActivity implements CittadinoVi
     public void setID(Integer ID) {
         IDUtente=ID;
     }
-
     
     @Override
     public void passaSegnalaActivity(){

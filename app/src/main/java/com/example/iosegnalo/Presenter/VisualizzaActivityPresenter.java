@@ -24,9 +24,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.UserHandle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -62,11 +64,30 @@ public class VisualizzaActivityPresenter {
 
     }
 
-    public void accettaIncarico()
+    public void accettaIncarico(int IDSegnalazione)
     {
         Sistema sys = Sistema.getIstance();
         ResponsabileTecnico = sys.getUtente();
-        sys.modificaStatoSegnalazione(ResponsabileTecnico.getId(),1);
+        sys.modificaStatoSegnalazione(ResponsabileTecnico.getId(), IDSegnalazione, 1);
+    }
+
+    public void setStato(TableRow tr, int Indice, int NuovoStato)
+    {
+        TableLayout table;
+        TextView Stato = (TextView) tr.getChildAt(Indice);
+
+        switch (NuovoStato) {
+            case 0:
+                Stato.setText("    Aperta");
+                break;
+            case 1:
+                Stato.setText("    In lavorazione");
+                break;
+            case 2:
+                Stato.setText("    Chiusa");
+                break;
+        }
+
     }
 
 
@@ -85,8 +106,8 @@ public class VisualizzaActivityPresenter {
                 tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                 //codice
                 TextView codice = new TextView(contesto);
-
                 //già era definito codice, in presenter
+                codice.setTag(Segnalazioni.get(i).getId());
                 codice.setOnClickListener(new View.OnClickListener() {
                     //facciamo un override del metodo onClick definito come interfaccia nella classe textview di android
                     @Override
@@ -94,7 +115,8 @@ public class VisualizzaActivityPresenter {
                         //definiamo cosa deve succedere quando premiamo il tasto
                         //deve attivarsi quel messaggio di conferma, quindi dovrai richiamare qui quel metodo che hai messo nella view
                         //ovviamente qui vediamo solo le interfacce, quindi devi aggiungere prima l'interfaccia in "VisualizzaView"
-                        View.mostraFinestraConferma();
+                        Log.v("myapps",v.getTag().toString());
+                        View.mostraFinestraConferma(Integer.parseInt(v.getTag().toString()));
                     }
 
                 });

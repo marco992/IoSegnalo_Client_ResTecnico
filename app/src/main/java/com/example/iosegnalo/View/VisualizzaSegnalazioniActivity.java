@@ -61,7 +61,7 @@ public class VisualizzaSegnalazioniActivity extends AppCompatActivity implements
         table.addView(TR, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
     }
 
-    public void mostraFinestraConferma() {
+    public void mostraFinestraConferma(final int IDSegnalazione) {
 
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -71,7 +71,9 @@ public class VisualizzaSegnalazioniActivity extends AppCompatActivity implements
         // add the buttons
         builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Presenter.accettaIncarico();
+                Presenter.accettaIncarico(IDSegnalazione);
+                Intent i = new Intent(getApplicationContext(), CittadinoActivity.class);
+                startActivity(i);
                 dialog.cancel();
             }
         });

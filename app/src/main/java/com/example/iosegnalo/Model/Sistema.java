@@ -122,12 +122,12 @@ public class Sistema {
 
 
 
-    public void modificaStatoSegnalazione(int IDUtente, int id){
+    public void modificaStatoSegnalazione(int IDUtente, int id, int NuovoStato){
         ArrayList richiesta = new ArrayList();
         richiesta.add(5);
         richiesta.add(IDUtente);
         richiesta.add(id);
-        richiesta.add(1);
+        richiesta.add(NuovoStato);
         com.avviaComunicazione(richiesta);
     }
 

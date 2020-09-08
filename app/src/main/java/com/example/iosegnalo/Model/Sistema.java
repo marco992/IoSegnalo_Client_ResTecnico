@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Sistema {
     private static Sistema istance=null;
     ArrayList<Segnalazione> ListaSegnalazioni = new ArrayList<Segnalazione>();
-    Utente Cittadino;
+    Utente ResponsabileTecnico;
     private static Comunicazione com;
 
     public static Sistema getIstance() {
@@ -50,7 +50,7 @@ public class Sistema {
 
     public Utente getUtenteByUsrPass(String Username, String Password)
     {
-            Cittadino = new Utente();
+            ResponsabileTecnico = new Utente();
             ArrayList risposta = new ArrayList();
             ArrayList richiesta = new ArrayList();
             richiesta.add(0);
@@ -58,19 +58,19 @@ public class Sistema {
             richiesta.add(Password);
             com.avviaComunicazione(richiesta);
             risposta = com.getRisposta();
-            Cittadino.setUsername(Username);
-            Cittadino.setPassword(Password);
-            Cittadino.setTipo(Integer.parseInt(risposta.get(0).toString()));
-            Cittadino.setId(Integer.parseInt(risposta.get(1).toString()));
-        return Cittadino;
+            ResponsabileTecnico.setUsername(Username);
+            ResponsabileTecnico.setPassword(Password);
+            ResponsabileTecnico.setTipo(Integer.parseInt(risposta.get(0).toString()));
+            ResponsabileTecnico.setId(Integer.parseInt(risposta.get(1).toString()));
+            return ResponsabileTecnico;
     }
 
-    public ArrayList<Segnalazione> getSegnalazioniCittadino(int IDUtente)
+    public ArrayList<Segnalazione> PrelevaSegnalazioniAperte()
     {
         ArrayList risposta = new ArrayList();
         ArrayList richiesta = new ArrayList();
-        richiesta.add(1);
-        richiesta.add(IDUtente);
+        richiesta.add(4);
+        richiesta.add(0);
         com.avviaComunicazione(richiesta);
         risposta = com.getRisposta();
         ListaSegnalazioni.clear();
@@ -117,7 +117,19 @@ public class Sistema {
     }
 
     public Utente getUtente(){
-        return Cittadino;
+        return ResponsabileTecnico;
     }
+
+
+
+    public void modificaStatoSegnalazione(int IDUtente, int id){
+        ArrayList richiesta = new ArrayList();
+        richiesta.add(5);
+        richiesta.add(IDUtente);
+        richiesta.add(id);
+        richiesta.add(1);
+        com.avviaComunicazione(richiesta);
+    }
+
 
 }

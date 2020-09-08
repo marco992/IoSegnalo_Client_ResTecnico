@@ -13,4 +13,5 @@
     <string name="title_activity_impostazioni">ImpostazioniActivity</string>
     <string name="title_activity_segnala">Map</string>
     <string name="title_activity_visualizza_segnalazioni">VisualizzaSegnalazioniActivity</string>
+    <string name="title_activity_modifica">ModificaActivity</string>
 </resources>

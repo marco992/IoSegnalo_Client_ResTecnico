@@ -14,7 +14,7 @@ import java.util.TimerTask;
 
 public class CittadinoActivityPresenter {
     CittadinoView View;
-    Utente Cittadino;
+    Utente ResponsabileTecnico;
     ControlloreNuoveSegnalazioni CS;
     private static ArrayList<Segnalazione> ListaSegnalazioni;
 
@@ -22,14 +22,14 @@ public class CittadinoActivityPresenter {
     public CittadinoActivityPresenter(CittadinoView view){
         View = view;
         Sistema sys = Sistema.getIstance();
-        Cittadino = sys.getUtente();
-        View.setID(Cittadino.getId());
-        View.setUsername(Cittadino.getUsername());
+        ResponsabileTecnico = sys.getUtente();
+        View.setID(ResponsabileTecnico.getId());
+        View.setUsername(ResponsabileTecnico.getUsername());
 
 
         CS = new ControlloreNuoveSegnalazioni();
         ListaSegnalazioni = new ArrayList<Segnalazione>();
-        ListaSegnalazioni = (ArrayList<Segnalazione>) sys.getSegnalazioniCittadino(Cittadino.getId()).clone();
+        ListaSegnalazioni = (ArrayList<Segnalazione>) sys.PrelevaSegnalazioniAperte().clone();
 
         Timer timer = new Timer();
         timer.schedule( CS, 10000, 10000 );
@@ -54,7 +54,7 @@ public class CittadinoActivityPresenter {
             ArrayList<Segnalazione> NuovaListaSegnalazioni = new ArrayList<Segnalazione>();
             Sistema sys = Sistema.getIstance();
             NuovaListaSegnalazioni.clear();
-            NuovaListaSegnalazioni = (ArrayList<Segnalazione>) sys.getSegnalazioniCittadino(Cittadino.getId()).clone();
+            NuovaListaSegnalazioni = (ArrayList<Segnalazione>) sys.PrelevaSegnalazioniAperte().clone();
             int i;
             Log.d("myapp","Dim1: "+ ListaSegnalazioni.size() + "Dim2: " + NuovaListaSegnalazioni.size());
 

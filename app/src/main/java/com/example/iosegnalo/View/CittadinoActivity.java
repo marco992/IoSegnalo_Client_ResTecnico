@@ -38,6 +38,7 @@ public class CittadinoActivity  extends AppCompatActivity implements CittadinoVi
         IDUtente=ID;
     }
 
+    
     @Override
     public void passaSegnalaActivity(){
         Intent i = new Intent(CittadinoActivity.this, SegnalaActivity.class);

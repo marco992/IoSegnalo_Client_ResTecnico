@@ -1,6 +1,6 @@
 package com.example.iosegnalo.View;
 
-public interface CittadinoView {
+public interface ResTecnicoView {
     void setUsername(String Username);
     void setID(Integer ID);
     void passaSegnalaActivity();

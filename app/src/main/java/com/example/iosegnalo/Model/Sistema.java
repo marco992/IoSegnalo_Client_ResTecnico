@@ -1,5 +1,7 @@
 package com.example.iosegnalo.Model;
 
+import android.util.Log;
+
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -65,7 +67,7 @@ public class Sistema {
             return ResponsabileTecnico;
     }
 
-    public ArrayList<Segnalazione> PrelevaSegnalazioniAperte()
+    public ArrayList<Segnalazione> prelevaSegnalazioniAperte()
     {
         ArrayList risposta = new ArrayList();
         ArrayList richiesta = new ArrayList();
@@ -73,7 +75,8 @@ public class Sistema {
         richiesta.add(0);
         com.avviaComunicazione(richiesta);
         risposta = com.getRisposta();
-        ListaSegnalazioni.clear();
+        //ListaSegnalazioni.clear();
+        ArrayList<Segnalazione> ListaSegnalazioniTemp=new ArrayList<Segnalazione>();
         int i;
         for(i=0;i<risposta.size();i=i+5) {
             Segnalazione s = new Segnalazione();
@@ -86,9 +89,9 @@ public class Sistema {
             //s.getNota();
             //s.getRecapito();
             s.setStato(Integer.parseInt(risposta.get(i+4).toString()));
-            ListaSegnalazioni.add(s);
+            ListaSegnalazioniTemp.add(s);
         }
-        return ListaSegnalazioni;
+        return ListaSegnalazioniTemp;
     }
 
     public ArrayList<Segnalazione> getSegnalazioni()
@@ -120,16 +123,59 @@ public class Sistema {
         return ResponsabileTecnico;
     }
 
-
-
-    public void modificaStatoSegnalazione(int IDUtente, int id, int NuovoStato){
+    public void updateListaSegnalazioni()
+    {
+        ArrayList risposta = new ArrayList();
         ArrayList richiesta = new ArrayList();
-        richiesta.add(5);
-        richiesta.add(IDUtente);
-        richiesta.add(id);
-        richiesta.add(NuovoStato);
+        richiesta.add(4);
+        richiesta.add(0);
         com.avviaComunicazione(richiesta);
+        risposta = com.getRisposta();
+        ListaSegnalazioni.clear();
+        ArrayList<Segnalazione> ListaSegnalazioniTemp=new ArrayList<Segnalazione>();
+        int i;
+        for(i=0;i<risposta.size();i=i+5) {
+            Segnalazione s = new Segnalazione();
+            s.setId(Integer.parseInt(risposta.get(i).toString()));
+            //s.getDescrizione();
+            s.setDataModifica(Date.valueOf(risposta.get(i+3).toString()));
+            //s.setIDcittadino();
+            s.setLatitudine(Double.parseDouble(risposta.get(i+1).toString()));
+            s.setLongitudine(Double.parseDouble(risposta.get(i+2).toString()));
+            //s.getNota();
+            //s.getRecapito();
+            s.setStato(Integer.parseInt(risposta.get(i+4).toString()));
+            ListaSegnalazioniTemp.add(s);
+        }
+        ListaSegnalazioni= (ArrayList<Segnalazione>) ListaSegnalazioniTemp.clone();
     }
 
+    public boolean modificaStatoSegnalazione(int IDUtente, int IDSegnalazione, int NuovoStato){
+        ArrayList richiesta = new ArrayList();
+        ArrayList risposta = new ArrayList();
+        richiesta.add(5);
+        richiesta.add(IDUtente);
+        richiesta.add(IDSegnalazione);
+        richiesta.add(NuovoStato);
+        com.avviaComunicazione(richiesta);
+        risposta = com.getRisposta();
+        Log.d("myapp","Risposta modifica stato: " + risposta.toString());
+        if(Integer.parseInt(risposta.get(0).toString())==1) return true;
+        else return false;
+    }
+
+    public boolean verificaNuoveSegnalazioni()
+    {
+        ArrayList<Segnalazione> NuovaListaSegnalazioni = new ArrayList<Segnalazione>();
+        NuovaListaSegnalazioni.clear();
+        NuovaListaSegnalazioni = (ArrayList<Segnalazione>) prelevaSegnalazioniAperte().clone();
+        int i;
+        Log.d("myapp","Dim1: "+ ListaSegnalazioni.size() + "Dim2: " + NuovaListaSegnalazioni.size());
+        if(NuovaListaSegnalazioni.size()>ListaSegnalazioni.size()) {
+            ListaSegnalazioni = (ArrayList<Segnalazione>) NuovaListaSegnalazioni.clone();
+            return true;
+        }
+        else return false;
+    }
 
 }

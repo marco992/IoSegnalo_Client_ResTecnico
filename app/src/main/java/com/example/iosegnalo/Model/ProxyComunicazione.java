@@ -32,7 +32,7 @@ public class ProxyComunicazione implements Comunicazione {
             }
             realComunicazione = new RealComunicazione();
             realComunicazione.avviaComunicazione(Mess);
-        }
+         }
     }
     public boolean comparaMessaggi(ArrayList VecchiaRichiesta, ArrayList NuovaRichiesta)
     {
@@ -42,7 +42,7 @@ public class ProxyComunicazione implements Comunicazione {
         else
         {
             int i;
-            if(Integer.parseInt(NuovaRichiesta.get(0).toString())==1){
+            if((Integer.parseInt(NuovaRichiesta.get(0).toString())==1) || (Integer.parseInt(NuovaRichiesta.get(0).toString())==4)){
                 Log.d("myapp","Sono entrato nella backdoor!!!");
                 //backdoor per consentire al client di poter inviare piu richieste (uguali) di visualizzazione delle segnalazioni
                 return false;

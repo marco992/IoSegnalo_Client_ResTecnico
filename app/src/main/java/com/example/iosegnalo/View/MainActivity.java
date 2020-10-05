@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void passaCittadinoActivity(String Username, Integer ID){
-        Intent i = new Intent(this, CittadinoActivity.class);
+        Intent i = new Intent(this, ResTecnicoActivity.class);
         startActivity(i);
     }
 

@@ -66,9 +66,12 @@ public class VisualizzaActivityPresenter {
 
     public void accettaIncarico(int IDSegnalazione)
     {
+        boolean risposta;
         Sistema sys = Sistema.getIstance();
         ResponsabileTecnico = sys.getUtente();
-        sys.modificaStatoSegnalazione(ResponsabileTecnico.getId(), IDSegnalazione, 1);
+        risposta=sys.modificaStatoSegnalazione(ResponsabileTecnico.getId(), IDSegnalazione, 1);
+        Log.d("myapp","Rispostaaaaaaaaaaaa: " + risposta);
+        if (risposta) View.mostraMessaggio("Intervento creato con successo.");
     }
 
     public void setStato(TableRow tr, int Indice, int NuovoStato)
@@ -94,7 +97,7 @@ public class VisualizzaActivityPresenter {
     public void creaTabella(Context contesto) {
         Sistema sys = Sistema.getIstance();
 
-        ArrayList<Segnalazione> Segnalazioni = (ArrayList<Segnalazione>) sys.PrelevaSegnalazioniAperte().clone();
+        ArrayList<Segnalazione> Segnalazioni = (ArrayList<Segnalazione>) sys.prelevaSegnalazioniAperte().clone();
         if (Segnalazioni.isEmpty() == false) {
 
             int i;

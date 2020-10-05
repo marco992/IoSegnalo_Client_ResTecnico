@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class RealComunicazione implements Comunicazione {
 
-    public static String SERVER_IP = "2.45.110.96";
+    public static String SERVER_IP = "192.168.1.5";
     public static final int SERVER_PORT = 7777;
     Socket socket;
     ObjectOutputStream objectOutputStream;
@@ -39,64 +39,14 @@ public class RealComunicazione implements Comunicazione {
                 objectOutputStream = new ObjectOutputStream(OutStream);
                 InStream = socket.getInputStream();
                 inputO = new ObjectInputStream(InStream);
-                tipoRichiesta=Integer.parseInt(Messaggio.get(0).toString());
-                switch(tipoRichiesta)
-                {
-                    case 0:
-                        //richiesta di login
-                        objectOutputStream.writeObject(Messaggio);
-                        break;
-                    case 1:
-                        //richiesta di visualizzazione segnalazioni cittadino
-                        objectOutputStream.writeObject(Messaggio);
-                    break;
-                    case 2:
-                        //richiesta di aggiunta nuova segnalazione
-                        objectOutputStream.writeObject(Messaggio);
-                        break;
-                    case 4:
-                        //richiesta di Visualizzazione di segnalazioni aperte
-                        objectOutputStream.writeObject(Messaggio);
-                        break;
-                    case 5:
-                        //richiesta modifica stato segnalazione presa in carico dal ResponsabileTecnico
-                        objectOutputStream.writeObject(Messaggio);
-                        break;
-                }
-
-                String tipoRisposta = new String();
+                objectOutputStream.writeObject(Messaggio);
                 ArrayList messaggioIN = new ArrayList();
                 messaggioIN = new ArrayList( (ArrayList) inputO.readObject());
-                tipoRisposta = messaggioIN.get(0).toString();
-
-                if (tipoRisposta != null) {
-                    //verifico il primo elemento dell'arraylist per distinguere i vari messaggi
-                    switch (tipoRisposta) {
-                        case "0":
-                            Messaggio.clear();
-                            Messaggio.add(messaggioIN.get(1).toString());
-                            Messaggio.add(messaggioIN.get(2).toString());
-                            break;
-                        case "1":
-                            Messaggio.clear();
-                            int i;
-                            for(i=1;i<messaggioIN.size();i++)
-                            {
-                                Messaggio.add(messaggioIN.get(i).toString());
-                            }
-                            break;
-                        case "2":
-                            Messaggio.clear();
-                            Messaggio.add(messaggioIN.get(1).toString());
-                        break;
-                        case "4":
-                            Messaggio.clear();
-                            for(i=1;i<messaggioIN.size();i++)
-                            {
-                                Messaggio.add(messaggioIN.get(i).toString());
-                            }
-                            break;
-                    }
+                Messaggio.clear();
+                int i;
+                for(i=1;i<messaggioIN.size();i++)
+                {
+                    Messaggio.add(messaggioIN.get(i).toString());
                 }
                 objectOutputStream.close();
                 inputO.close();

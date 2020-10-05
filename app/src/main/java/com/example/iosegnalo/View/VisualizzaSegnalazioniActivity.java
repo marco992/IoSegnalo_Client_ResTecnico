@@ -8,23 +8,16 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.example.iosegnalo.Model.Segnalazione;
-import com.example.iosegnalo.Model.Sistema;
 import com.example.iosegnalo.Presenter.VisualizzaActivityPresenter;
 import com.example.iosegnalo.R;
 import com.google.android.gms.maps.model.LatLng;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
-
-
-
-import java.util.ArrayList;
+import android.widget.Toast;
 
 public class VisualizzaSegnalazioniActivity extends AppCompatActivity implements VisualizzaView {
     VisualizzaActivityPresenter Presenter;
@@ -65,14 +58,14 @@ public class VisualizzaSegnalazioniActivity extends AppCompatActivity implements
 
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("AlertDialog");
+        builder.setTitle("Creazione intervento");
         builder.setMessage("Vuoi prendere in carico la segnalazione? Lo stato passerà da APERTA a IN LAVORAZIONE.");
 
         // add the buttons
         builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Presenter.accettaIncarico(IDSegnalazione);
-                Intent i = new Intent(getApplicationContext(), CittadinoActivity.class);
+                Intent i = new Intent(getApplicationContext(), ResTecnicoActivity.class);
                 startActivity(i);
                 dialog.cancel();
             }
@@ -85,6 +78,13 @@ public class VisualizzaSegnalazioniActivity extends AppCompatActivity implements
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void mostraMessaggio(String Messaggio){
+        Toast toast=Toast.makeText(getApplicationContext(),Messaggio,Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
 }

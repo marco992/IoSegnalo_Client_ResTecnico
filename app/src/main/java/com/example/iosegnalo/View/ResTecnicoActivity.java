@@ -7,26 +7,23 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.iosegnalo.Presenter.CittadinoActivityPresenter;
+import com.example.iosegnalo.Presenter.ResTecnicoActivityPresenter;
 import com.example.iosegnalo.R;
 
-public class CittadinoActivity  extends AppCompatActivity implements CittadinoView  {
+public class ResTecnicoActivity extends AppCompatActivity implements ResTecnicoView {
     TextView nomeLabel;
     int IDUtente;
-    CittadinoActivityPresenter Presenter;
+    ResTecnicoActivityPresenter Presenter;
 
     @Override
     public void setUsername(String Username) {
@@ -40,13 +37,13 @@ public class CittadinoActivity  extends AppCompatActivity implements CittadinoVi
     
     @Override
     public void passaSegnalaActivity(){
-        Intent i = new Intent(CittadinoActivity.this, SegnalaActivity.class);
+        Intent i = new Intent(ResTecnicoActivity.this, ResTecnicoActivity.class);
         startActivity(i);
     }
 
     @Override
     public void passaVisualizzaActivity(){
-        Intent i = new Intent(CittadinoActivity.this, VisualizzaSegnalazioniActivity.class);
+        Intent i = new Intent(ResTecnicoActivity.this, VisualizzaSegnalazioniActivity.class);
         startActivity(i);
     }
 
@@ -55,22 +52,14 @@ public class CittadinoActivity  extends AppCompatActivity implements CittadinoVi
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cittadino);
+        setContentView(R.layout.activity_resp_tecnico);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Button segnalaButton = (Button) findViewById(R.id.segnalaBtn);
         Button visualizzaButton = (Button) findViewById(R.id.visualizzaBtn);
         nomeLabel = findViewById(R.id.nomeLbl);
 
-        Presenter = new CittadinoActivityPresenter(this);
+        Presenter = new ResTecnicoActivityPresenter(this);
 
-        //evento associato al bottone Accedi
-        segnalaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Presenter.clickSegnalaButton();
-                }
-            });
 
         //evento associato al bottone Visualizza segnalazioni
         visualizzaButton.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +79,7 @@ public class CittadinoActivity  extends AppCompatActivity implements CittadinoVi
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "IoSegnalo", NotificationManager.IMPORTANCE_DEFAULT);
 
             // Configure the notification channel.
-            notificationChannel.setDescription("Lo stato delle tue segnalazioni è stato aggiornato.");
+            notificationChannel.setDescription("Ci sono nuove segnalazioni aperte!");
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
@@ -108,7 +97,7 @@ public class CittadinoActivity  extends AppCompatActivity implements CittadinoVi
                 .setTicker("Hearty365")
                 //     .setPriority(Notification.PRIORITY_MAX)
                 .setContentTitle("IoSegnalo")
-                .setContentText("Lo stato delle tue segnalazioni è stato aggiornato.")
+                .setContentText("Ci sono nuove segnalazioni aperte!")
                 .setContentInfo("Info");
 
         notificationManager.notify(/*notification id*/1, notificationBuilder.build());

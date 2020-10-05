@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">IoSegnalo</string>
-    <string name="title_activity_cittadino">CittadinoActivity</string>
+    <string name="app_name">IoSegnalo_ResTecnico</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

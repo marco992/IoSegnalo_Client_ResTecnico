@@ -7,4 +7,5 @@ public interface VisualizzaView {
     void aggiungiRiga(TableRow TR);
     void apriMappa(LatLng Coordinate);
     public void mostraFinestraConferma(int IDSegnalazione);
+    public void mostraMessaggio(String Messaggio);
 }
